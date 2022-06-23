@@ -1,3 +1,4 @@
+const { CONTEST_TYPES, CONTEST_STATUSES } = require("../constants");
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -9,7 +10,7 @@ module.exports = {
       },
       contestType: {
         allowNull: false,
-        type: Sequelize.ENUM('name', 'tagline', 'logo'),
+        type: Sequelize.ENUM(...Object.values(CONTEST_TYPES)),
       },
       fileName: {
         type: Sequelize.STRING,
@@ -43,7 +44,7 @@ module.exports = {
       },
       status: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM(...Object.values(CONTEST_STATUSES)),
       },
       brandStyle: {
         type: Sequelize.STRING,
@@ -72,8 +73,18 @@ module.exports = {
           key: 'id',
         },
       },
-    });
-  },
+    }).then(() =>
+    queryInterface.addConstraint('contests', {
+      type: 'check',
+      fields: ['prize'],
+      where: {
+        prize: {
+          [Sequelize.Op.gte]: 0,  
+        }
+      }
+    })
+  )
+},
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('contests');
   },

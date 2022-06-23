@@ -1,3 +1,4 @@
+const {OFFER_STATUSES} = require('../constants')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -8,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       userId: {
+        field: 'user_id',
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -16,6 +18,7 @@ module.exports = {
         },
       },
       contestId: {
+        field: 'contest_id',
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -27,15 +30,27 @@ module.exports = {
         type: Sequelize.STRING,
       },
       fileName: {
+        field: 'file_name',
         type: Sequelize.STRING,
       },
       originalFileName: {
+        field: 'original_fileName',
         type: Sequelize.STRING,
       },
       status: {
-        type: Sequelize.STRING,
-        defaultValue: 'pending',
+        type: Sequelize.ENUM(Object.values(OFFER_STATUSES)),
+        defaultValue: OFFER_STATUSES.PENDING,
       },
+      createdAt: {
+        field: 'created_at',
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+      },
+      updatedAt: {
+        field: 'updated_at',
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+      }
     });
   },
   down: (queryInterface, Sequelize) => {

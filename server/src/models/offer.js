@@ -1,5 +1,5 @@
 const {Model} = require('sequelize')
-
+const {OFFER_STATUSES} = require('../constants')
 
 module.exports = (sequelize, DataTypes) => {
 class Offer extends Model {
@@ -22,11 +22,13 @@ class Offer extends Model {
       type: DataTypes.INTEGER,
     },
     userId: {
+      field: 'user_id',
       type: DataTypes.INTEGER,
       allowNull: false,
 
     },
     contestId: {
+      field: 'contest_id',
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -34,15 +36,27 @@ class Offer extends Model {
       type: DataTypes.STRING,
     },
     fileName: {
+      field: 'file_name',
       type: DataTypes.STRING,
     },
     originalFileName: {
+      field: 'original_fileName',
       type: DataTypes.STRING,
     },
     status: {
-      type: DataTypes.STRING,
-      defaultValue: 'pending',
+      type: DataTypes.ENUM(Object.values(OFFER_STATUSES)),
+      defaultValue: OFFER_STATUSES.PENDING,
     },
+    createdAt: {
+      field: 'created_at',
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+    },
+    updatedAt: {
+      field: 'updated_at',
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+    }
   }
 ,
   {

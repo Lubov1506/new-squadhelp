@@ -12,10 +12,12 @@ class Rating extends Model {
 
    Rating.init({
     offerId: {
+      field: 'offer_id',
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
     userId: {
+      field: 'user_id',
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
@@ -23,10 +25,7 @@ class Rating extends Model {
       type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0,
-      validate: {
-        min: 0,
-        max: 5,
-      },
+
     },
   }
 ,

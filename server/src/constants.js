@@ -1,35 +1,44 @@
-const {env: 
-  JWT_SECRET ,
-  ACCESS_TOKEN_TIME ,
+const {
+  env: JWT_SECRET,
+  ACCESS_TOKEN_TIME,
   SALT_ROUNDS,
   SQUADHELP_BANK_NUMBER,
   SQUADHELP_BANK_NAME,
-  SQUADHELP_BANK_CVC ,
+  SQUADHELP_BANK_CVC,
   SQUADHELP_BANK_EXPIRY
 } = process
 
 module.exports = {
-  JWT_SECRET ,
-  ACCESS_TOKEN_TIME ,
+  JWT_SECRET,
+  ACCESS_TOKEN_TIME,
   SALT_ROUNDS,
   SQUADHELP_BANK_NUMBER,
   SQUADHELP_BANK_NAME,
-  SQUADHELP_BANK_CVC ,
+  SQUADHELP_BANK_CVC,
   SQUADHELP_BANK_EXPIRY,
-  
-  CUSTOMER: 'customer',
-  CREATOR: 'creator',
+  ROLES: {
+    CUSTOMER: 'customer',
+    CREATOR: 'creator'    
+  },
+
   CREATOR_ENTRIES: 'creator_entries',
-  CONTEST_STATUS_ACTIVE: 'active',
-  CONTEST_STATUS_FINISHED: 'finished',
-  CONTEST_STATUS_PENDING: 'pending',
+  CONTEST_STATUSES: {
+    ACTIVE: 'active',
+    FINISHED: 'finished',
+    PENDING: 'pending'
+  },
   CONTESTS_DEFAULT_DIR: 'public/contestFiles/',
-  NAME_CONTEST: 'name',
-  LOGO_CONTEST: 'logo',
-  TAGLINE_CONTEST: 'tagline',
-  OFFER_STATUS_PENDING: 'pending',
-  OFFER_STATUS_REJECTED: 'rejected',
-  OFFER_STATUS_WON: 'won',
+  CONTEST_TYPES:{
+    NAME_CONTEST: 'name',
+    LOGO_CONTEST: 'logo',
+    TAGLINE_CONTEST: 'tagline'    
+  },
+
+  OFFER_STATUSES: {
+    PENDING: 'pending',
+    REJECTED: 'rejected',
+    WON: 'won'
+  },
   FILES_PATH: 'public/',
   SOCKET_CONNECTION: 'connection',
   SOCKET_SUBSCRIBE: 'subscribe',
@@ -38,5 +47,5 @@ module.exports = {
   NOTIFICATION_CHANGE_MARK: 'changeMark',
   NOTIFICATION_CHANGE_OFFER_STATUS: 'changeOfferStatus',
   NEW_MESSAGE: 'newMessage',
-  CHANGE_BLOCK_STATUS: 'CHANGE_BLOCK_STATUS',
-};
+  CHANGE_BLOCK_STATUS: 'CHANGE_BLOCK_STATUS'
+}

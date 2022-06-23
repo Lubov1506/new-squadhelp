@@ -1,4 +1,5 @@
 const { Model } = require('sequelize')
+const {CONTEST_TYPES} = require('../constants')
 
 module.exports = (sequelize, DataTypes) => {
   class Contest extends Model {
@@ -25,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },

@@ -1,9 +1,9 @@
+const {ROLES} = require('../constants')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('users', {
       id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       role: {
-        type: Sequelize.ENUM('customer', 'creator'),
+        type: Sequelize.ENUM(...Object.values(ROLES)),
         allowNull: false,
       },
       balance: {
