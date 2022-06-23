@@ -1,9 +1,8 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Offers', {
+    return queryInterface.createTable('offers', {
       id: {
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
@@ -12,7 +11,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'User',
+          model: 'users',
           key: 'id',
         },
       },
@@ -20,30 +19,26 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Contests',
+          model: 'contests',
           key: 'id',
         },
       },
       text: {
         type: Sequelize.STRING,
-        allowNull: true,
       },
       fileName: {
         type: Sequelize.STRING,
-        allowNull: true,
       },
       originalFileName: {
         type: Sequelize.STRING,
-        allowNull: true,
       },
       status: {
         type: Sequelize.STRING,
-        allowNull: true,
         defaultValue: 'pending',
       },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Offers');
+    return queryInterface.dropTable('offers');
   },
 };

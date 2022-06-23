@@ -2,6 +2,10 @@ const {Model} = require('sequelize')
 const bcrypt = require('bcrypt')
 const  {SALT_ROUNDS} = require('../constants')
 
+async function hashPassword () {
+
+}
+
 module.exports = (sequelize, DataTypes) => {
 class User extends Model {
 
@@ -9,13 +13,13 @@ class User extends Model {
     return bcrypt.compare(password, this.getDataValue('password'))
   }
 
-  static associate({Order, Participant, Offer, RefreshToken}) {
-    User.hasMany(Order, { foreignKey: 'user_id', targetKey: 'id' });
-    User.hasMany(Participant,
-      { foreignKey: 'user_id', targetKey: 'id' });
-    User.hasMany(Offer, { foreignKey: 'user_id', targetKey: 'id' });
-    User.hasMany(RefreshToken,
-        { foreignKey: 'user_id', targetKey: 'id' });
+  static associate({Offer, Contest, Rating}) {
+    User.hasMany(Offer,
+  { foreignKey: 'userId', targetKey: 'id' });
+    User.hasMany(Contest,
+  { foreignKey: 'userId', targetKey: 'id' });
+    User.hasMany(Rating,
+  { foreignKey: 'userId', targetKey: 'id' });
    }}
 
   User.init({

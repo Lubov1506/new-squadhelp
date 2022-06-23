@@ -1,7 +1,14 @@
-
+const {Model} = require('sequelize')
+const bcrypt = require('bcrypt')
 
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Banks', {
+class CreditCard extends Model {
+
+  static associate() {
+
+   }}
+
+   CreditCard.init({
     cardNumber: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -23,8 +30,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: false,
       defaultValue: 0,
-    },
-  }, {
+    }
+  }
+,
+  {
+    sequelize,
+    tableName: 'credit_cards',
+    modelName: 'CreditCard',
+    underscore: true,
     timestamps: false,
   });
+
+
+  return CreditCard;
 };
+
+
+
