@@ -9,12 +9,10 @@ class Select extends Model {
 
    Select.init({
     type: {
-      allowNull: false,
       primaryKey: true,
       type: DataTypes.STRING,
     },
     describe: {
-      allowNull: false,
       primaryKey: true,
       type: DataTypes.STRING,
     },

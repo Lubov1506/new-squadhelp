@@ -30,20 +30,22 @@ class User extends Model {
 
   User.init({
     id: {
-      allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
     firstName: {
+      field: 'first_name',
       type: DataTypes.STRING,
       allowNull: false,
     },
     lastName: {
+      field: 'last_name',
       type: DataTypes.STRING,
       allowNull: false,
     },
     displayName: {
+      field: 'display_name',
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -78,6 +80,7 @@ class User extends Model {
       },
     },
     accessToken: {
+      field: 'access_token',
       type: DataTypes.TEXT,
       allowNull: true,
     },

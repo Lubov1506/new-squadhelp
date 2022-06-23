@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       originalFileName: {
-        field: 'original_fileName',
+        field: 'original_file_name',
         type: Sequelize.STRING,
       },
       status: {

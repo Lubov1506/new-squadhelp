@@ -10,6 +10,7 @@ class CreditCard extends Model {
 
    CreditCard.init({
     cardNumber: {
+      field: 'card_number',
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,

@@ -9,14 +9,17 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       firstName: {
+        field: 'first_name',
         type: Sequelize.STRING,
         allowNull: false,
       },
       lastName: {
+        field: 'last_name',
         type: Sequelize.STRING,
         allowNull: false,
       },
       displayName: {
+        field: 'display_name',
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -42,6 +45,7 @@ module.exports = {
         defaultValue: 0,
       },
       accessToken: {
+        field: 'access_token',
         type: Sequelize.TEXT,
       },
       rating: {

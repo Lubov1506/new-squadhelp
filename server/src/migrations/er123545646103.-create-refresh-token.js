@@ -2,6 +2,7 @@ module.exports = {
     up: (queryInterface, Sequelize) => {
       return queryInterface.createTable('refresh_tokens', {
         userId: {
+            field: 'user_id',
             type: Sequelize.INTEGER,
             allowNull: false,
             references: {

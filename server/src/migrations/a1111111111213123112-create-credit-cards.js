@@ -3,6 +3,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('credit_cards', {
       cardNumber: {
+        field: 'card_number',
         type: Sequelize.STRING,
         primaryKey: true,
       },

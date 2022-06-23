@@ -40,7 +40,7 @@ class Offer extends Model {
       type: DataTypes.STRING,
     },
     originalFileName: {
-      field: 'original_fileName',
+      field: 'original_file_name',
       type: DataTypes.STRING,
     },
     status: {

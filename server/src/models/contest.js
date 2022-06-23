@@ -1,5 +1,5 @@
 const { Model } = require('sequelize')
-const {CONTEST_TYPES} = require('../constants')
+const {CONTEST_TYPES, CONTEST_STATUSES} = require('../constants')
 
 module.exports = (sequelize, DataTypes) => {
   class Contest extends Model {
@@ -19,10 +19,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       orderId: {
+        field: 'order_id',
         allowNull: false,
         type: DataTypes.STRING,
       },
       userId: {
+        field: 'user_id',
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
@@ -31,43 +33,54 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       contestType: {
+        field: 'contest_type',
         allowNull: false,
         type: DataTypes.ENUM(...Object.values(CONTEST_TYPES)),
       },
       fileName: {
+        field: 'file_name',
         type: DataTypes.STRING,
       },
       originalFileName: {
+        field: 'original_file_name',
         type: DataTypes.STRING,
       },
       title: {
         type: DataTypes.STRING,
       },
       typeOfName: {
+        field: 'type_of_name',
         type: DataTypes.STRING,
       },
       industry: {
         type: DataTypes.STRING,
       },
       focusOfWork: {
+        field: 'focus_of_work',
         type: DataTypes.TEXT,
       },
       targetCustomer: {
+        field: 'target_customer',
         type: DataTypes.TEXT,
       },
       styleName: {
+        field: 'style_name',
         type: DataTypes.STRING,
       },
       nameVenture: {
+        field: 'name_venture',
         type: DataTypes.STRING,
       },
       typeOfTagline: {
+        field: 'type_of_tagline',
         type: DataTypes.STRING,
       },
       brandStyle: {
+        field: 'brand_style',
         type: DataTypes.STRING,
       },
       createdAt: {
+        field: 'created_at',
         type: DataTypes.STRING,
       },
       status: {
