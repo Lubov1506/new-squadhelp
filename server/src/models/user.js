@@ -2,9 +2,12 @@ const {Model} = require('sequelize')
 const bcrypt = require('bcrypt')
 const  {SALT_ROUNDS, ROLES} = require('../constants')
 
-async function hashPassword () {
-
-}
+async function hashPassword(user, options) {
+  if (user.changed('password')) {
+    const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+    user.password = hashedPassword;
+  }
+  }
 
 module.exports = (sequelize, DataTypes) => {
 class User extends Model {
@@ -47,12 +50,12 @@ class User extends Model {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      set(password){
+/*       set(password){
         bcrypt.hash(password, SALT_ROUNDS, (err, hashedPass)=>{
           if(err) {throw err};
           this.setDataValue('password', hashedPass)
         })
-      }
+      } */
     },
     email: {
       type: DataTypes.STRING,
@@ -91,6 +94,8 @@ class User extends Model {
     timestamps: false,
   });
 
+  User.beforeCreate(hashPassword);
+  User.beforeUpdate(hashPassword)
 
   return User;
 };

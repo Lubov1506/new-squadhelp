@@ -8,7 +8,7 @@ module.exports = {
         firstName: 'Customer',
         lastName: 'Customerovich',
         displayName: 'Cus',
-        password: await bcrypt.hashSync('Test12345', SALT_ROUNDS),
+        password: bcrypt.hashSync('Test12345', SALT_ROUNDS),
         email: 'qwerty@customer',
         role: ROLES.CUSTOMER
        },
@@ -16,7 +16,7 @@ module.exports = {
         firstName: 'Creator',
         lastName: 'Creatorovich',
         displayName: 'Cret',
-        password: await bcrypt.hashSync('Test54321', SALT_ROUNDS),
+        password: bcrypt.hashSync('Test54321', SALT_ROUNDS),
         email: 'qwerty@creator',
         role: ROLES.CREATOR
        }
