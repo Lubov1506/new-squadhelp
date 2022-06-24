@@ -8,9 +8,9 @@ const httpClient = axios.create({
 let accessToken;
 
 httpClient.interceptors.request.use((config) => {
-  const token = window.localStorage.getItem(CONSTANTS.ACCESS_TOKEN);
-  if (token) {
-    config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
+
+  if (accessToken) {
+    config.headers = { ...config.headers, Authorization: `Bearer ${accessToken}` };
   }
   return config;
 }, (err) => Promise.reject(err));
@@ -25,6 +25,7 @@ httpClient.interceptors.response.use((response) => {
 const refreshToken = window.localStorage.getItem(CONSTANTS.REFRESH_TOKEN)
 const {data:{data: {tokenPair: {access, refresh}}}} = httpClient.post('/auth/refresh', {refreshToken})
 window.localStorage.setItem(CONSTANTS.REFRESH_TOKEN, refresh)
+accessToken = access;
 err.config.headers.Authorization = `Bearer ${access}`
 return axios.request(err.config)
   }
