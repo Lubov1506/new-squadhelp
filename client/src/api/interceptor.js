@@ -2,11 +2,12 @@ import axios from 'axios';
 import CONTANTS from '../constants';
 import history from '../browserHistory';
 
-const instance = axios.create({
+const httpClient = axios.create({
   baseURL: CONTANTS.BASE_URL,
 });
+let accessToken;
 
-instance.interceptors.request.use((config) => {
+httpClient.interceptors.request.use((config) => {
   const token = window.localStorage.getItem(CONTANTS.ACCESS_TOKEN);
   if (token) {
     config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
@@ -14,16 +15,19 @@ instance.interceptors.request.use((config) => {
   return config;
 }, (err) => Promise.reject(err));
 
-instance.interceptors.response.use((response) => {
-  if (response.data.token) {
-    window.localStorage.setItem(CONTANTS.ACCESS_TOKEN, response.data.token);
+httpClient.interceptors.response.use((response) => {
+  if (response.data.data.token) {
+    window.localStorage.setItem(CONTANTS.REFRESH_TOKEN, response.data.data.refreshtoken);
   }
   return response;
 }, (err) => {
-  if (err.response.status === 408 && history.location.pathname !== '/login' && history.location.pathname !== '/registration' && history.location.pathname !== '/') {
+  if (err.response.status === 419) {
+    history.replace('/login');
+  }
+  if (err.response.status === 401) {
     history.replace('/login');
   }
   return Promise.reject(err);
 });
 
-export default instance;
+export default httpClient;

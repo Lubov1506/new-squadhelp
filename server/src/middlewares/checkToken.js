@@ -4,7 +4,8 @@ const TokenError = require('../errors/TokenError');
 const userQueries =require('../controllers/queries/userQueries');
 
 module.exports.checkAuth = async (req, res, next) => {
-  const accessToken = req.headers.authorization;
+  const {headers: {authorization}} = req;
+  const [, accessToken] = authorization.split(' ')
   if (!accessToken) {
     return next(new TokenError('need token'));
   }
@@ -27,7 +28,8 @@ module.exports.checkAuth = async (req, res, next) => {
 };
 
 module.exports.checkToken = async (req, res, next) => {
-  const accessToken = req.headers.authorization;
+  const {headers: {authorization}} = req;
+  const [, accessToken] = authorization.split(' ')
   if (!accessToken) {
     return next(new TokenError('need token'));
   }
