@@ -23,6 +23,11 @@ router.post(
 );
 
 router.post(
+  '/getUser',
+  checkToken.checkAuth,
+);
+
+router.post(
   '/dataForContest',
   checkToken.checkToken,
   contestController.dataForContest,
@@ -56,11 +61,6 @@ router.post(
   checkToken.checkToken,
   basicMiddlewares.onlyForCreative,
   contestController.getContests,
-);
-
-router.post(
-  '/getUser',
-  checkToken.checkAuth,
 );
 
 router.get(

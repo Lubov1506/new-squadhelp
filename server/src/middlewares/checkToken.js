@@ -22,7 +22,7 @@ module.exports.checkAuth = async (req, res, next) => {
       email: foundUser.email,
     });
   } catch (err) {
-    next(new TokenError());
+    next(new TokenError(err));
   }
 };
 
@@ -35,6 +35,6 @@ module.exports.checkToken = async (req, res, next) => {
     req.tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
     next();
   } catch (err) {
-    next(new TokenError());
+    next(new TokenError(err));
   }
 };
