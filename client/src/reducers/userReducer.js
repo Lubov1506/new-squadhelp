@@ -8,7 +8,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case ACTION.GET_USER_REQUEST: {
+/*     case ACTION.GET_USER_REQUEST: {
       return {
         ...state,
         isFetching: true,
@@ -51,7 +51,7 @@ export default function (state = initialState, action) {
         ...state,
         error: action.error,
       };
-    }
+    } */
     case ACTION.CLEAR_USER_ERROR: {
       return {
         ...state,

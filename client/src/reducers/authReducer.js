@@ -3,6 +3,7 @@ import ACTION from '../actions/actionTypes';
 const initialState = {
   isFetching: false,
   error: null,
+  data: {}
 };
 
 export default function (state = initialState, action) {
@@ -15,8 +16,10 @@ export default function (state = initialState, action) {
     }
     case ACTION.AUTH_ACTION_SUCCESS: {
       return {
+        ...state,
         isFetching: false,
         error: null,
+        userData: action.payload
       };
     }
     case ACTION.AUTH_ACTION_ERROR: {
