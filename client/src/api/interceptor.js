@@ -1,14 +1,14 @@
 import axios from 'axios';
-import CONTANTS from '../constants';
+import CONSTANTS from '../constants';
 import history from '../browserHistory';
 
 const httpClient = axios.create({
-  baseURL: CONTANTS.BASE_URL,
+  baseURL: CONSTANTS.BASE_URL,
 });
 let accessToken;
 
 httpClient.interceptors.request.use((config) => {
-  const token = window.localStorage.getItem(CONTANTS.ACCESS_TOKEN);
+  const token = window.localStorage.getItem(CONSTANTS.ACCESS_TOKEN);
   if (token) {
     config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
   }
@@ -17,12 +17,16 @@ httpClient.interceptors.request.use((config) => {
 
 httpClient.interceptors.response.use((response) => {
   if (response.data.data.token) {
-    window.localStorage.setItem(CONTANTS.REFRESH_TOKEN, response.data.data.refreshtoken);
+    window.localStorage.setItem(CONSTANTS.REFRESH_TOKEN, response.data.data.refreshtoken);
   }
   return response;
 }, (err) => {
   if (err.response.status === 419) {
-    history.replace('/login');
+const refreshToken = window.localStorage.getItem(CONSTANTS.REFRESH_TOKEN)
+const {data:{data: {tokenPair: {access, refresh}}}} = httpClient.post('/auth/refresh', {refreshToken})
+window.localStorage.setItem(CONSTANTS.REFRESH_TOKEN, refresh)
+err.config.headers.Authorization = `Bearer ${access}`
+return axios.request(err.config)
   }
   if (err.response.status === 401) {
     history.replace('/login');
