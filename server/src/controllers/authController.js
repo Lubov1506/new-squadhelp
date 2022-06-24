@@ -1,54 +1,22 @@
 const { createError } = require('http-errors')
-const JWTService = require('../services/jwtService')
+const AuthService = require('../services/authService')
 const {User, RefreshToken} = require('../models')
-const {
-  ACCESS_TOKEN_TIME,
-  ACCESS_TOKEN_SECRET,
-  REFRESH_TOKEN_TIME,
-  REFRESH_TOKEN_SECRET,
-  MAX_DEVICE_AMOUNT
-} = require('../constants')
-
-const signJWT = promisify(jwt.sign)
 
 module.exports.signIn = async (req, res, next) => {
   try {
     const {
       body: { email, password }
     } = req
+    // find user
     const user = await User.findOne({
       where: { email }
     })
+    // compare password
     if (user && user.comparePassword(password)) {
-
-     const tokenPair = await JWTService.createTokenPair(user)
-
-      if ((await user.countRefreshTokens() )>= MAX_DEVICE_AMOUNT){
-        const [oldestToken] = await user.getRefreshTokens({
-          order: [('updatedAt', 'ASC')]
-        })
-        await oldestToken.update({
-          value: refreshToken
-        })
-      }else{
-        user.createRefreshToken({
-          value: refreshToken
-        })
-      }
-
-      user.createRefreshToken({
-        value: tokenPair.refresh
-      })
-
-      res.send({
-        data: {
-          user,
-          tokens: {
-            access: tokenPair.access,
-            refresh: tokenPair.refresh
-          }
-        }
-      })
+    // create token pair
+    const data = await AuthService.createSession(user)
+    // send token to user
+    res.send({data})
     } else {
       next(createError(403, 'Invalid credentials'))
     }
@@ -60,23 +28,9 @@ module.exports.signUp = async (req, res, next) => {
   try {
     const {body} = req
     const user = await User.create(body)
-
     if (user) {
-      const tokenPair = await JWTService.createTokenPair(user)
-
-      user.createRefreshToken({
-        value: tokenPair.refresh
-      })
-
-      res.send({
-        data: {
-          user,
-          tokens: {
-            access: tokenPair.access,
-            refresh: tokenPair.refresh
-          }
-        }
-      })
+      const data = await AuthService.createSession(user)
+      res.send({data})
     } else {
       next(createError(406, 'Can`t create user'))
     }
@@ -91,24 +45,8 @@ module.exports.refresh = async (req, res, next) => {
     const refreshTokenInstance = await RefreshToken.findOne({
       where: {value: refreshToken}
     })
-
-    const user = await refreshTokenInstance.getUser();
-    const tokenPair = await JWTService.createTokenPair(user)
-
-  await refreshTokenInstance.update({
-    value: tokenPair.refresh
-  })
-
-  res.send({
-    data: {
-      user,
-      tokens: {
-        access: tokenPair.access,
-        refresh: tokenPair.refresh
-      }
-    }
-  })
-
+    const data = await AuthService.refreshSession(refreshTokenInstance)
+    res.send({data})
   } catch (error) {
     next(error)
   }
