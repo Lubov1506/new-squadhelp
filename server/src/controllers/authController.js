@@ -37,15 +37,15 @@ module.exports.signIn = async (req, res, next) => {
       }
 
       user.createRefreshToken({
-        value: refreshToken
+        value: tokenPair.refresh
       })
 
       res.send({
         data: {
           user,
           tokens: {
-            access: accessToken,
-            refresh: refreshToken
+            access: tokenPair.access,
+            refresh: tokenPair.refresh
           }
         }
       })
@@ -65,15 +65,15 @@ module.exports.signUp = async (req, res, next) => {
       const tokenPair = await JWTService.createTokenPair(user)
 
       user.createRefreshToken({
-        value: refreshToken
+        value: tokenPair.refresh
       })
 
       res.send({
         data: {
           user,
           tokens: {
-            access: accessToken,
-            refresh: refreshToken
+            access: tokenPair.access,
+            refresh: tokenPair.refresh
           }
         }
       })
@@ -94,17 +94,17 @@ module.exports.refresh = async (req, res, next) => {
 
     const user = await refreshTokenInstance.getUser();
     const tokenPair = await JWTService.createTokenPair(user)
-    
+
   await refreshTokenInstance.update({
-    value: newRefreshToken
+    value: tokenPair.refresh
   })
 
   res.send({
     data: {
       user,
       tokens: {
-        access: newAccessToken,
-        refresh: newRefreshToken
+        access: tokenPair.access,
+        refresh: tokenPair.refresh
       }
     }
   })
