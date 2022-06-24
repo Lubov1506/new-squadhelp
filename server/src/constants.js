@@ -21,7 +21,7 @@ module.exports = {
   SQUADHELP_BANK_NAME,
   SQUADHELP_BANK_CVC,
   SQUADHELP_BANK_EXPIRY,
-  
+  MAX_DEVICE_AMOUNT: 3,
   SALT_ROUNDS : 5,
   ROLES: {
     CUSTOMER: 'customer',
