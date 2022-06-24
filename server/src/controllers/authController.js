@@ -1,7 +1,6 @@
 const { createError } = require('http-errors')
-const { promisify } = require('utils')
-const { User } = require('../models/User')
-const {RefreshToken} = require('../models/refreshToken')
+const JWTService = require('../services/jwtService')
+const {User, RefreshToken} = require('../models')
 const {
   ACCESS_TOKEN_TIME,
   ACCESS_TOKEN_SECRET,
@@ -22,23 +21,7 @@ module.exports.signIn = async (req, res, next) => {
     })
     if (user && user.comparePassword(password)) {
 
-      const accessToken = signJWT({
-          userId: user.id,
-          email: user.email,
-          role: user.role
-        },
-        ACCESS_TOKEN_SECRET, {
-          expiresIn: ACCESS_TOKEN_TIME
-        }
-      )
-
-      const refreshToken = signJWT({  
-        userId: user.id,
-        email: user.email,
-        role: user.role
-      }, REFRESH_TOKEN_SECRET, {
-        expiresIn: REFRESH_TOKEN_TIME
-      })
+     const tokenPair = await JWTService.createTokenPair(user)
 
       if ((await user.countRefreshTokens() )>= MAX_DEVICE_AMOUNT){
         const [oldestToken] = await user.getRefreshTokens({
@@ -79,24 +62,7 @@ module.exports.signUp = async (req, res, next) => {
     const user = await User.create(body)
 
     if (user) {
-      
-      const accessToken = signJWT({
-          userId: user.id,
-          email: user.email,
-          role: user.role
-        },
-        ACCESS_TOKEN_SECRET,{
-          expiresIn: ACCESS_TOKEN_TIME
-        }
-      )
-
-      const refreshToken = signJWT({  
-        userId: user.id,
-        email: user.email,
-        role: user.role
-      }, REFRESH_TOKEN_SECRET, {
-        expiresIn: REFRESH_TOKEN_TIME
-      })
+      const tokenPair = await JWTService.createTokenPair(user)
 
       user.createRefreshToken({
         value: refreshToken
@@ -127,25 +93,8 @@ module.exports.refresh = async (req, res, next) => {
     })
 
     const user = await refreshTokenInstance.getUser();
-
-    const newAccessToken = signJWT({
-      userId: user.id,
-      email: user.email,
-      role: user.role
-    },
-    ACCESS_TOKEN_SECRET,{
-      expiresIn: ACCESS_TOKEN_TIME
-    }
-  )
-
-  const newRefreshToken = signJWT({  
-    userId: user.id,
-    email: user.email,
-    role: user.role
-  }, REFRESH_TOKEN_SECRET, {
-    expiresIn: REFRESH_TOKEN_TIME
-  })
-
+    const tokenPair = await JWTService.createTokenPair(user)
+    
   await refreshTokenInstance.update({
     value: newRefreshToken
   })
