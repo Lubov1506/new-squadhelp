@@ -10,7 +10,7 @@ module.exports.checkAuth = async (req, res, next) => {
     return next(new TokenError('need token'));
   }
   try {
-    const tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
+    const tokenData = jwt.verify(accessToken, CONSTANTS.ACCESS_TOKEN_SECRET); //JWT_SECRET
     const foundUser = await userQueries.findUser({ id: tokenData.userId });
     res.send({
       firstName: foundUser.firstName,
@@ -34,7 +34,7 @@ module.exports.checkToken = async (req, res, next) => {
     return next(new TokenError('need token'));
   }
   try {
-    req.tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
+    req.tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);//JWT_SECRET
     next();
   } catch (err) {
     next(new TokenError(err));
